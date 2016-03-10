@@ -31,7 +31,21 @@
   <font size="6" align="center">&nbsp;&nbsp;RevMine<sup>&reg;</sup></font>
     <label for="light_mode" style="cursor: pointer; float: right;"><font size="6" id='symbol'>&#9728;</font><input type="checkbox" id="light_mode" class="cbx hidden"/>
     </label>
+
+<!-- TABS -->
+  <div class="row" id="tablet" hidden>
+    <div class="col-sm-offset-2 s8">
+      <ul class="tabs" align="center"  style="background-color: transparent;">
+        <li class="tab col s4"><a class="active" href="#" id="i1">Insights</a></li>
+        <li class="tab col s4"><a href="#" id="a1">Alternatives</a></li>
+      </ul>
+    </div>
+  </div>
+<!--TABS-->
+
 </div></div>
+
+<div id="insights">
   	<div class="row">
       <div class="col s12">
         <div class="progress" id='prog' style:"display: none;">
@@ -43,6 +57,13 @@
   	  <br>
   	  <div class = "flow-text" id='anim' align="center" hidden>Click on a bar to see the related review!</div>
     </div>
+</div>
+
+<div id="alternatives" hidden>
+<p class="flow-text">In Category X this product ranks RANK in the range 10,000 to 20000. These are the top
+products in the range.</p>
+</div>
+
     <footer align="center">Made with <font color="#FF00FF">&#10084;</font> in BITS Pilani by EvolvingLegends <sup>&copy;</sup> 2016</footer>
   </body>
 </html>

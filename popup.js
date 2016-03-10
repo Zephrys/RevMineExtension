@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
           responsive : true,
       	  barValueSpacing : 7
         });
-
+    $("#tablet").attr('hidden', false);
     $("#anim").attr('hidden', false);
 		$("#canvas").click(
 		    function(evt){
@@ -186,6 +186,11 @@ document.addEventListener('DOMContentLoaded', function() {
 				$.get('http://api.revmine.tk/vote/down/' + domain + '/' + pid, function(data,status){})
 			}
 		};
+
+    $('#light_mode').prop('checked', true);
+    $("body").css("background",'rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box');
+    $("body").css("color","rgba(0, 0, 0, 0.870588)");
+    document.getElementById('symbol').innerHTML = '&#9789;'
 
 		$('#topic').attr('hidden', false);
     $('#topic').upvote({count: upvotes, callback: callback});
@@ -222,4 +227,15 @@ $(document).ready(function() {
             document.getElementById('symbol').innerHTML = '&#9728;'
         }
     });
+});
+
+$(document).ready(function(){
+  $("#i1").click(function(){
+    $("#insights").attr('hidden', false);
+    $("#alternatives").attr('hidden', true);
+  });
+  $("#a1").click(function(){
+    $("#alternatives").attr('hidden', false);
+    $("#insights").attr('hidden', true);
+  });
 });
