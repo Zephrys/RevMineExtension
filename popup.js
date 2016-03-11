@@ -9,6 +9,10 @@
  *   is found.
  */
 function getCurrentTabUrl(callback) {
+  $("body").css("background",'rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box');
+  $("body").css("color","rgba(0, 0, 0, 0.870588)");
+  document.getElementById('symbol').innerHTML = '&#9789;'
+
   // Query filter to be passed to chrome.tabs.query - see
   // https://developer.chrome.com/extensions/tabs#method-query
   var queryInfo = {
@@ -61,7 +65,7 @@ function getProductDetails(searchTerm, callback, errorCallback) {
   parser.href = searchTerm;
   var pat = /\/(B[A-Z0-9]{8,9})$/
   var isbn_pat = /\/([0-9]{10})/
-  var snap_pat = /\/([0-9]{12})/
+  var snap_pat = /\/([0-9]{9,12})/
   var flip_pat = /(itm[a-z0-9]{13})/i
   var flip_pat_name = /\/([a-zA-Z\-0-9]+)\/p/
   var snap_pat_name = /product\/([a-zA-Z\-0-9]+)/
@@ -72,7 +76,7 @@ function getProductDetails(searchTerm, callback, errorCallback) {
   if (pat.test(parser.pathname)){
     pid = pat.exec(parser.pathname)[1];
   }
-  else if(snap_pat.test(parser.pathname)){
+  else if(snap_pat.test(parser.pathname) && snap_pat_name.exec(parser.pathname)){
   	pid = snap_pat.exec(parser.pathname)[1].toString();
   	prod_name = snap_pat_name.exec(parser.pathname)[1].toString();
   }
@@ -154,8 +158,15 @@ document.addEventListener('DOMContentLoaded', function() {
     $("#name").html(name);
     $("#message").html(message);
 
+    String.prototype.format = function () {
+            var args = [].slice.call(arguments);
+            return this.replace(/(\{\d+\})/g, function (a){
+                return args[+(a.substr(1,a.length-2))||0];
+            });
+    };
+
     for(var data in related_products){
-      $("#ballu").append('<li class="collection-item avatar"> <img src="{0}" alt="" class="circle"> <span class="title black-text">{1}</span> <p class = "black-text">{2}<br> Rs {3} </p> </li>'.format(data.image, data.name, data.rating, data.price));
+      $("#ballu").append("<a href='{4}' target='_blank'><li class='collection-item avatar'> <img src='{0}' alt='' class='circle'> <span class='title black-text'>{1}</span> <p class = 'black-text'>{2}<br> Rs {3} </p> </li></a>".format(related_products[data].image, related_products[data].name, related_products[data].rating, related_products[data].price, related_products[data].link));
     }
 
     $("#tablet").attr('hidden', false);
@@ -194,10 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		};
 
-    $('#light_mode').prop('checked', true);
-    $("body").css("background",'rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box');
-    $("body").css("color","rgba(0, 0, 0, 0.870588)");
-    document.getElementById('symbol').innerHTML = '&#9789;'
 
 		$('#topic').attr('hidden', false);
     $('#topic').upvote({count: upvotes, callback: callback});
@@ -246,3 +253,4 @@ $(document).ready(function(){
     $("#insights").attr('hidden', true);
   });
 });
+
