@@ -102,7 +102,7 @@ function getProductDetails(searchTerm, callback, errorCallback) {
       errorCallback('Something went wrong. Contact @h4ck3rk3y?');
       return;
     }
-    callback(response.result,response.status,response.reviews,parser.hostname, pid, response.upvotes);
+    callback(response.result,response.status,response.reviews,parser.hostname, pid, response.upvotes, response.name, response.message, response.related_products);
   };
   x.onerror = function() {
     errorCallback('Network error.');
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
   getCurrentTabUrl(function(url) {
     // Put the image URL in Google search.
     renderStatus('Fetching insights for the product...');
-    getProductDetails(url, function(result, status, reviews, domain, pid, upvotes) {
+    getProductDetails(url, function(result, status, reviews, domain, pid, upvotes, name, message, related_products) {
       document.getElementById('prog').style.display='none'
       if (status==200){
         renderStatus('');
@@ -151,6 +151,13 @@ document.addEventListener('DOMContentLoaded', function() {
           responsive : true,
       	  barValueSpacing : 7
         });
+    $("#name").html(name);
+    $("#message").html(message);
+
+    for(var data in related_products){
+      $("#ballu").append('<li class="collection-item avatar"> <img src="{0}" alt="" class="circle"> <span class="title black-text">{1}</span> <p class = "black-text">{2}<br> Rs {3} </p> </li>'.format(data.image, data.name, data.rating, data.price));
+    }
+
     $("#tablet").attr('hidden', false);
     $("#anim").attr('hidden', false);
 		$("#canvas").click(
