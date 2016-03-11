@@ -92,7 +92,7 @@ function getProductDetails(searchTerm, callback, errorCallback) {
     pid = pat.exec(parser.pathname)[1] || 'BOGUS'
   }
 
-  var searchUrl = 'http://api.revmine.tk/' + parser.hostname + '/' + pid + '/' + prod_name
+  var searchUrl = 'http://localhost:5000/' + parser.hostname + '/' + pid + '/' + prod_name
   console.log(searchUrl)
   var x = new XMLHttpRequest();
   x.timeout = 400000;
@@ -190,18 +190,18 @@ document.addEventListener('DOMContentLoaded', function() {
 		var previous = null;
 		var callback = function(data) {
 			if(data.upvoted == true){
-				$.get('http://api.revmine.tk/vote/up/' + domain + '/' + pid, function(data,status){});
+				$.get('http://localhost:5000/vote/up/' + domain + '/' + pid, function(data,status){});
 				previous = 'upvoted';
 			}
 			else if (data.downvoted == true){
-				$.get('http://api.revmine.tk/vote/down/' + domain + '/' + pid, function(data,status){});
+				$.get('http://localhost:5000/vote/down/' + domain + '/' + pid, function(data,status){});
 				previous = 'downvoted';
 			}
 			else if(previous != 'upvoted'){
-				$.get('http://api.revmine.tk/vote/up/' + domain + '/' + pid, function(data,status){});
+				$.get('http://localhost:5000/vote/up/' + domain + '/' + pid, function(data,status){});
 			}
 			else{
-				$.get('http://api.revmine.tk/vote/down/' + domain + '/' + pid, function(data,status){})
+				$.get('http://localhost:5000/vote/down/' + domain + '/' + pid, function(data,status){})
 			}
 		};
 
