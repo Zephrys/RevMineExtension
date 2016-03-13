@@ -106,7 +106,7 @@ function getProductDetails(searchTerm, callback, errorCallback) {
       errorCallback('Something went wrong. Contact @h4ck3rk3y?');
       return;
     }
-    callback(response.result,response.status,response.reviews,parser.hostname, pid, response.upvotes, response.name, response.message, response.related_products);
+    callback(response.result,response.status,response.reviews,parser.hostname, pid, response.upvotes, response.name, response.message, response.related_products, response.pie_chart);
   };
   x.onerror = function() {
     errorCallback('Network error.');
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
   getCurrentTabUrl(function(url) {
     // Put the image URL in Google search.
     renderStatus('Fetching insights for the product...');
-    getProductDetails(url, function(result, status, reviews, domain, pid, upvotes, name, message, related_products) {
+    getProductDetails(url, function(result, status, reviews, domain, pid, upvotes, name, message, related_products, pie_chart) {
       document.getElementById('prog').style.display='none'
       if (status==200){
         renderStatus('');
@@ -151,42 +151,57 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
 
+
         window.myBar = new Chart(ctx).Bar(barChartData, {
           responsive : true,
       	  barValueSpacing : 7
         });
-    $("#name").html(name);
-    $("#message").html(message);
+	    $("#name").html(name);
+	    $("#message").html(message);
 
-    String.prototype.format = function () {
-            var args = [].slice.call(arguments);
-            return this.replace(/(\{\d+\})/g, function (a){
-                return args[+(a.substr(1,a.length-2))||0];
-            });
-    };
+	    var pieData = []
 
-    for(var data in related_products){
-      $("#ballu").append("<a href='{4}' target='_blank'><li class='collection-item avatar'> <img src='{0}' alt='' class='circle'> <span class='title black-text'>{1}</span> <p class = 'black-text'>{2}<br> Rs {3} </p> </li></a>".format(related_products[data].image, related_products[data].name, related_products[data].rating, related_products[data].price, related_products[data].link));
-    }
+	    for (var key in pie_chart){
+	    	if(pie_chart.hasOwnProperty(key)){
+	    		pieData.push({value: pie_chart[key], label: key})
+	    	}
+	    }
+	    piechart.style.display='';
+        var pie = document.getElementById("piechart").getContext("2d");
 
-    $("#tablet").attr('hidden', false);
-    $("#anim").attr('hidden', false);
-		$("#canvas").click(
-		    function(evt){
-		        var activePoints = myBar.getBarsAtEvent(evt);
-            if (typeof activePoints[0] != 'undefined'){
-              if(domain == 'www.flipkart.com'){
-		            $("#anim").html('<a href="https://www.flipkart.com' + reviews[activePoints[0]['label']]['link'] + '" target="_blank">'  + reviews[activePoints[0]['label']]['snippet']  + '...</a>');
-              }
-            else if(domain=='www.amazon.in'){
-              $("#anim").html('<a href="https://www.amazon.in' + reviews[activePoints[0]['label']]['link'] + '" target="_blank">'  + reviews[activePoints[0]['label']]['snippet']  + '...</a>');
-            }
-            else{
-             $("#anim").html('<a href="' + reviews[activePoints[0]['label']]['link'] + '" target="_blank">'  + reviews[activePoints[0]['label']]['snippet']  + '...</a>');
-            }
-        }
-      }
-		);
+        window.myPie = new Chart(pie).Pie(pieData, {
+    		    animateScale: true
+		});
+
+	    String.prototype.format = function () {
+	            var args = [].slice.call(arguments);
+	            return this.replace(/(\{\d+\})/g, function (a){
+	                return args[+(a.substr(1,a.length-2))||0];
+	            });
+	    };
+
+	    for(var data in related_products){
+	      $("#ballu").append("<a href='{4}' target='_blank'><li class='collection-item avatar'> <img src='{0}' alt='' class='circle'> <span class='title black-text'>{1}</span> <p class = 'black-text'>{2}<br> Rs {3} </p> </li></a>".format(related_products[data].image, related_products[data].name, related_products[data].rating, related_products[data].price, related_products[data].link));
+	    }
+
+	    $("#tablet").attr('hidden', false);
+	    $("#anim").attr('hidden', false);
+			$("#canvas").click(
+			    function(evt){
+			        var activePoints = myBar.getBarsAtEvent(evt);
+	            if (typeof activePoints[0] != 'undefined'){
+	              if(domain == 'www.flipkart.com'){
+			            $("#anim").html('<a href="https://www.flipkart.com' + reviews[activePoints[0]['label']]['link'] + '" target="_blank">'  + reviews[activePoints[0]['label']]['snippet']  + '...</a>');
+	              }
+	            else if(domain=='www.amazon.in'){
+	              $("#anim").html('<a href="https://www.amazon.in' + reviews[activePoints[0]['label']]['link'] + '" target="_blank">'  + reviews[activePoints[0]['label']]['snippet']  + '...</a>');
+	            }
+	            else{
+	             $("#anim").html('<a href="' + reviews[activePoints[0]['label']]['link'] + '" target="_blank">'  + reviews[activePoints[0]['label']]['snippet']  + '...</a>');
+	            }
+	        }
+	      }
+			);
 		var previous = null;
 		var callback = function(data) {
 			if(data.upvoted == true){
@@ -247,10 +262,17 @@ $(document).ready(function(){
   $("#i1").click(function(){
     $("#insights").attr('hidden', false);
     $("#alternatives").attr('hidden', true);
+    $("#pie").attr('hidden', true);
   });
   $("#a1").click(function(){
     $("#alternatives").attr('hidden', false);
     $("#insights").attr('hidden', true);
+    $("#pie").attr('hidden', true);
+  });
+  $("#p1").click(function(){
+    $("#pie").attr('hidden', false);
+    $("#insights").attr('hidden', true);
+    $("#alternatives").attr('hidden', true);
   });
 });
 
