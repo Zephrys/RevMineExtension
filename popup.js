@@ -161,16 +161,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	    var pieData = []
 
+      colors = [{highlight: 'rgba(63,83,89,0.5)', color: 'rgba(63,83,89,1)'}, {highlight: 'rgba(63,94,91,0.5)', color: 'rgba(63,94,91,1)'},
+      {highlight: 'rgba(63,122,105,0.5)', color: 'rgba(63,122,105,1)'}, {highlight: 'rgba(63,139,112,0.5)', color: 'rgba(63,139,112,1)'},
+      {highlight: 'rgba(198,175,149,0.5)', color: 'rgba(198,175,149,1)'}, {highlight: 'rgba(5,102,141,0.5)', color: 'rgba(5,102,141,1)'},
+      {highlight: 'rgba(2,128,144,0.5)', color: 'rgba(2,128,144,1)'},{highlight: 'rgba(0,168,150,0.5)', color: 'rgba(0,168,150,1)'},
+      {highlight: 'rgba(2,195,154,0.5)', color: 'rgba(2,195,154,1)'},{highlight: 'rgba(240,243,189,0.5)', color: 'rgba(26,243,189,1)'}
+      ]
+
+
+      var i = 0;
 	    for (var key in pie_chart){
 	    	if(pie_chart.hasOwnProperty(key)){
-	    		pieData.push({value: pie_chart[key], label: key})
+	    		pieData.push({value: pie_chart[key], label: key, color: colors[i].color, highlight: colors[i].highlight});
+          i +=1;
 	    	}
 	    }
+
 	    piechart.style.display='';
         var pie = document.getElementById("piechart").getContext("2d");
 
         window.myPie = new Chart(pie).Pie(pieData, {
-    		    animateScale: true
+    		    animateRoate: false,
+            animationEasing : "easeOutBounce"
 		});
 
 	    String.prototype.format = function () {
