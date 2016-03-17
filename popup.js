@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('prog').style.display='none'
       if (status==200){
         renderStatus('');
+        var helpers = Chart.helpers;
         var table = document.getElementById('canvas');
         canvas.style.display='';
         var ctx = document.getElementById("canvas").getContext("2d");
@@ -134,10 +135,10 @@ document.addEventListener('DOMContentLoaded', function() {
         barChartData.labels = []
         barChartData.datasets= []
 
-        barChartData.datasets.push({fillColor : "rgba(51,178,63,0.5)",strokeColor : "rgba(51,178,63,0.8)",highlightFill: "rgba(51,178,63,0.75)"
+        barChartData.datasets.push({label: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Positive&nbsp;Sentiment', fillColor : "rgba(51,178,63,0.5)",strokeColor : "rgba(51,178,63,0.8)",highlightFill: "rgba(51,178,63,0.75)"
       ,highlightStroke: "rgba(51,178,63,1)"});
 
-    	barChartData.datasets.push({fillColor : "rgba(178,63,51,0.5)",strokeColor : "rgba(178,63,51,0.8)",highlightFill: "rgba(178,63,51,0.75)"
+    	barChartData.datasets.push({label: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Negative&nbsp;Sentiment', fillColor : "rgba(178,63,51,0.5)",strokeColor : "rgba(178,63,51,0.8)",highlightFill: "rgba(178,63,51,0.75)"
       ,highlightStroke: "rgba(178,63,51,1)"});
 
         barChartData.datasets[0].data = []
@@ -152,10 +153,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
 
+
         window.myBar = new Chart(ctx).Bar(barChartData, {
           responsive : true,
-      	  barValueSpacing : 7
+      	  barValueSpacing : 7,
+          tooltipTemplate: "<%= value %>%"
         });
+
+        document.getElementById('js-legend').innerHTML = myBar.generateLegend();
+
+
 	    $("#name").html(name);
 	    $("#message").html(message);
 
@@ -193,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    };
 
 	    for(var data in related_products){
-	      $("#ballu").append("<a href='{4}' target='_blank'><li class='collection-item avatar'> <img src='{0}' alt='' class='circle'> <span class='title black-text'>{1}</span> <p class = 'black-text'>{2}<br> Rs {3} </p> </li></a>".format(related_products[data].image, related_products[data].name, related_products[data].rating, related_products[data].price, related_products[data].link));
+	      $("#ballu").append("<a href='{4}' target='_blank'><li class='collection-item avatar'> <img src='{0}' alt='' class='circle'> <span class='title black-text'>{5}. {1}</span> <p class = 'black-text'>{2} Stars<br> Rs {3} </p> </li></a>".format(related_products[data].image, related_products[data].name, related_products[data].rating, related_products[data].price, related_products[data].link, parseInt(data) + 1));
 	    }
 
 	    $("#tablet").attr('hidden', false);
