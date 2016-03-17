@@ -3,3 +3,10 @@ body{
   color : #eaeaea;
   padding : 10px;
 }
+
+.chart-legend li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
