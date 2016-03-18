@@ -40,6 +40,7 @@ function checkForValidUrl(tabId, changeInfo, tab) {
       // }
 
       // var searchUrl = 'http://api.revmine.tk/' + parser.hostname + '/' + pid + '/' + prod_name;
+      // var searchUrl = 'http://localhost:8080/' + parser.hostname + '/' + pid + '/' + prod_name;
       // var x = new XMLHttpRequest();
       // x.timeout = 400000;
       // console.log('ho gaya babu');
