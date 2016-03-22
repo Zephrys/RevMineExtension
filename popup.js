@@ -215,6 +215,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	            else if(domain=='www.amazon.in'){
 	              $("#anim").html('<a href="https://www.amazon.in' + reviews[activePoints[0]['label']]['link'] + '" target="_blank">'  + reviews[activePoints[0]['label']]['snippet']  + '...</a>');
 	            }
+              else if(domain=='www.amazon.com'){
+                $("#anim").html('<a href="https://www.amazon.com' + reviews[activePoints[0]['label']]['link'] + '" target="_blank">'  + reviews[activePoints[0]['label']]['snippet']  + '...</a>');
+              }
 	            else{
 	             $("#anim").html('<a href="' + reviews[activePoints[0]['label']]['link'] + '" target="_blank">'  + reviews[activePoints[0]['label']]['snippet']  + '...</a>');
 	            }
