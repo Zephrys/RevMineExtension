@@ -200,6 +200,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	    };
 
 	    for(var data in related_products){
+        if(domain=='www.amazon.com'){
+          $("#ballu").append("<a href='{4}' target='_blank'><li class='collection-item avatar'> <img src='{0}' alt='' class='circle'> <span class='title black-text'>{5}. {1}</span> <p class = 'black-text'>{2} Stars<br> $ {3} </p> </li></a>".format(related_products[data].image, related_products[data].name, related_products[data].rating, related_products[data].price, related_products[data].link, parseInt(data) + 1));
+          continue;
+        }
 	      $("#ballu").append("<a href='{4}' target='_blank'><li class='collection-item avatar'> <img src='{0}' alt='' class='circle'> <span class='title black-text'>{5}. {1}</span> <p class = 'black-text'>{2} Stars<br> Rs {3} </p> </li></a>".format(related_products[data].image, related_products[data].name, related_products[data].rating, related_products[data].price, related_products[data].link, parseInt(data) + 1));
 	    }
 
